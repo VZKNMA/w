@@ -1,0 +1,59 @@
+第二章 C数据类型
+枚举类型
+
+指针
+特殊指针 NULL
+
+数组
+
+指针与数组的关系：
+	数组名 arr 与 &arr[0] 所代表的磁盘信息完全相同，即
+arr[i]等效于*ip+i,ip=&arr[0] OR:	arr[i]==ip[i]
+
+记录（结构体）
+
+动态分配
+类型void*专用于malloc函数所返回的通用指针
+
+动态数组：随程序需要重新指定大小，适用于无法预知大小的数组
+
+动态记录
+
+
+静态三维数组的声明
+int array[n1][n2][n3];
+
+动态三维数组的构建与释放
+int i,j,k,n1,n3,n2;
+int ***array;
+
+scanf("%d%d%d",&n1,&n2,&n3);
+array=(int***)calloc(n1,sizeof(int**));//先创建最外层指针
+for (i=0;i<n1;i++)
+{
+	array[i]=(int**)calloc(n2,sizeof(int*));
+	for(j=0;j<n2;j++)
+	{
+	array[i][j]=(int*)calloc(n3,sizeof(int));
+	for(k=0;k<n3;k++)
+	{
+		array[i][j][k]=i+j+k+1;
+	}
+	}
+}
+
+//释放三维数组
+for (i=0;i<n1;i++)
+{
+for(j=0;j<n2;j++)
+{
+free(array[i][j]);//先释放最内层的指针
+}
+}
+
+for(i=0;i<n1;i++)
+{
+free(array[i]);
+}
+
+free(array); //over
