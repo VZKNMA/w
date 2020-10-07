@@ -1,0 +1,106 @@
+“当我年轻的时候，我梦想改变这个世界；当我成熟以后，我发现我不能够改变这个世界，我将目光缩短了些，决定只改变我的国家；当我进入暮年以后，我发现我不能够改变我们的国家，我的最后愿望仅仅是改变一下我的家庭，但是，这也不可能。当我现在躺在床上，行将就木时，我突然意识到：如果一开始我仅仅去改变我自己，然后，我可能改变我的家庭；在家人的帮助和鼓励下，我可能为国家做一些事情；然后，谁知道呢?我甚至可能改变这个世界。”
+
+
+*******************************************************************
+逆序翻装输入的数字 long 8字节
+#include <stdio.h>
+
+int main(void) {
+	long int input, reversed = 0;
+
+	printf("Please enter a positive integer: ");
+	scanf("%ld", &input);
+
+	printf("The reverse of %ld is ", input);
+
+	while (input > 0) {
+		reversed *= 10;
+		reversed += input % 10;
+		input /= 10;
+	}
+
+	printf("%ld.\n", reversed);
+	
+	return 0;
+}
+
+
+******************************************************************
+每个大于1的正整数的质因子分解都是唯一的例如60-》2×2×3×5
+编写程序显示N的质因子分解式
+
+#include <stdio.h>
+
+int main(void) 
+{
+	int input, i = 0;
+	
+	printf("Please enter a positive integer: ");
+	fflush(stdout);
+	scanf("%d", &input);
+
+
+	while (input > 1) 
+	{
+		for(i=2; i <= input; i++) 
+		{
+			if(input % i == 0) 
+			{
+				if (input / i == 1) 
+				{	
+					printf("%d\n", i);
+				} 
+				else 
+				{
+					printf("%d * ", i);
+				}
+				input /= i;
+				break;
+			}
+		}
+	}
+
+
+	return 0;
+}
+*******************************************************************************************
+钟表数字模运算，应该以零为起点，
+这样顺时针运算就加上运动量取余模值
+    逆时针运算就加上运动量模差取余模值
+#include <stdio.h>
+
+	typedef enum {
+		monday,
+		tuesday,
+		wednesday,
+		thursday,
+		friday,
+		saturday,
+		sunday
+	} weekT;
+static weekT previousday(weekT w);
+static weekT nextday(weekT w);
+static weekT incrementday(weekT w,int delta);
+void main()
+{
+	printf("after monday is %d \n",nextday(monday)+1);	
+	printf("before monday is %d \n",previousday(monday)+1);	
+	printf("3days after monday is %d \n",incrementday(monday,3)+1);	
+	printf("3days before monday is %d \n",incrementday(monday,-3)+1);
+}
+
+
+static weekT previousday(weekT w)
+{
+	return (w+6)%7;
+}
+static weekT nextday(weekT w)
+{
+	return (w+1)%7;
+}
+static weekT incrementday(weekT w,int delta)
+{
+	if (delta>=0) return (w+delta)%7;
+	else return (w+(7-((-delta)%7)))%7; 
+}
+*****************************************************************************************************************************************
