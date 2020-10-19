@@ -57,3 +57,5 @@ free(array[i]);
 }
 
 free(array); //over
+
+

@@ -1,0 +1,66 @@
+An overview of ANSI C
+
+In Lewis Carroll's Alice's Adventures in Wonderland, the King asks the White Rabbit to "begin at the beginning and go on till you 
+come to the end: then stop." Good advice, but only if you're starting from the beginning.
+
+变量
+如果要用一个变量来存储信息，就必须在使用前声明它。
+被声明的变量具有下面４个属性：
+    名称：根据名称引用变量存储的数值
+    类型：决定了变量可以存储什么样的数据类型
+    生命期：变量的声明方式决定了变量是在整个程序中持续存在还是在函数调用时动态地创建和销毁。
+    作用域：变量的声明方式控制着变量在程序中存在的范围，或函数的某一部分可以访问。
+
+局部变量
+在函数的开始进行声明。
+作用域是该函数内部。这意味着其他函数不能直接访问这些变量。
+生命期是该函数激活期间。当调用该函数时，函数为所用的局部变量分配空间；当函数返回时，这些局部变量将被销毁。
+
+全局变量
+在任何函数的定义之外进行声明的变量。
+作用域是从声明它的位置到文件的结束。
+生命期是整个程序运行阶段。可以存储需要跨函数调用的值。
+
+数据类型包含了数据所属的域，和数据所支持的操作集两种内涵。
+
+用while迭代过程解决不完全循环问题
+ｗｈｉｌｅ循环适用于在重复操作的开始时需要检测条件的情况，先测试条件再执行循环体语句。
+而不完全循环问题是指不希望在循环开始时就先检测条件，往往是希望先读入数据，再依据数据执行测试条件。即循环体的第一步是读入数据而非检测是否符合迭代持续条件。
+而标准的while函数结构需要在while函数头部输入迭代持续条件。在这一结构下，循环体内部根本没有判断所依据的数据，所以无法判断，且最初的判断也毫无意义。
+因此在while函数结构中加入break结构使函数结构变为：
+    头部判别条件总为真，不用进行初始判断，直接先输入判断所依据的数据
+    将迭代持续条件的判断环节转移到循环体内部用break实现
+例子
+    不完全循环问题－－－－监测值类问题
+    /*This progra add a list of numbers.The end of input is indicated by entering a sentinel value,which is zero.*/
+#include<stdio.h>
+
+#define Sentinel 0
+
+main()
+{
+    int value ,total;
+    printf("this program adds a list of integers by using 0 to stop adding.\n\a");
+
+    total=0;
+    while(1)
+    {
+        printf("?");
+        scanf("%d",&value);
+        if (value==Sentinel) break;
+        total+=value;
+    }
+    printf("the total is %d\n",total);
+}
+
+标准的while迭代过程：计算某个整数表示中所有组成数字的和
+int digitsum(int n)
+{
+    int sum;
+    sum=0;
+    while(n>0){
+    sum+=n%10;
+    n/=10;
+    }
+    return(sum);
+}
