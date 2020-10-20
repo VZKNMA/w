@@ -64,3 +64,22 @@ int digitsum(int n)
     }
     return(sum);
 }
+
+%与* /处于同一优先级　左结合
+
+switch语句的基本写法
+switch(标量类型ｅ)
+    ｛
+        case c1:
+            statements
+            break;
+        case c2:
+            statements
+            break;
+        case c3:
+            statements
+            break;
+        default:
+            statements
+            break;
+    ｝
