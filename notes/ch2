@@ -1,28 +1,254 @@
-第二章 C数据类型
-枚举类型
+chapter 2 Data Types In C
 
-指针
-特殊指针 NULL
+1. 术语定义
+指针：是变量的地址，指向其他的变量，存储在内存中可以像变量一样被赋值和改变。
+数组：是内存中连续存储的类型相同的有序的变量集合，可以按下标随机访问。
+记录：是一种包含不同变量类型的变量集合，这些数据组成逻辑上的整体，按名称随机访问。
+用例：使用typedef为每个新记录的数据类型定义类型名称
+    typedef struct{
+                    string name
+                    double salary
+                   }employee;
 
-数组
+2. 定义枚举类型
 
-指针与数组的关系：
+useage：typedef enum {element1,element2,...,elementN} name;
+
+        typedef enum {Triangle=3,Square,Pentagon,Hexagon,Octagon=8} ploygonT;
+
+*******************************************************************************************************************************
+//to test if the def of ploygonT was correctly definited
+#include<stdio.h>
+
+int main()
+{
+    typedef enum {Triangle=3,Square,Pentagon,Hexagon,Octagon=8} ploygonT;
+
+    printf("this program list the number of ploygon's angle from
+            3,4,5,6 to 8:\n");
+    printf("%d\n",Triangle);
+    printf("%d\n",Square);
+    printf("%d\n",Pentagon);
+    printf("%d\n",Hexagon);
+    printf("%d\n",Octagon);
+
+    return (0);
+}
+*********************************************************************************************************************************
+
+3. the benefits of using enumeration types:
+On many systems, programs that use enumeration types are easier to debug
+Because the compiler makes the names of the enumeration constants available to the debugger.
+Thus, if you ask it about a value of type monthT
+A well-designed debugger would be able to display the value January instead of the integer constant 1.
+
+4. True or false: In C, you can apply any operation defined on integers to values of any scalar type. True
+
+5. At first glance, the following function looks very much like RightFrom, which is defined in the section on "Scalar types":
+directionT LeftFrom(directionT dir)
+{
+    return ( (dir -1) % 4);
+}
+The RightFrom implementation works fine, but this one has a small bug.
+Identify the problem,and then rewrite the function 
+so that it correctly calculates the compass direction that is 90 degrees to the left of dir .
+
+*********************************************************************************************************************************
+#include<stdio.h>
+
+typedef enum { North, East, South, West } directionT;
+/*
+When the cornpiler encounters a new enumeration type. it ordinarily assigns consecutive
+integers to the enumertion constants. starting with the integer 0.
+   */
+
+directionT RightFrom(directionT dir)
+{
+    return ( (dir + 1) % 4);
+}
+
+/*
+   this function realizes the action of turn right in 90 degrees(like north to east)
+   actually we can understand it as a clockwise rotation in a clock(like 11->12,12->1,1->2)
+   so the opposite function leftfrom() is a anticlockwise rotation(like 12->11,1->12,2->1) 
+You just need to remember that
+          In this clock model, subtracting a number is equivalent to adding the modulus of a number
+   */
+directionT LeftFrom(directionT dir)
+{
+    return ( (dir +3) % 4);
+}
+
+void main()
+{
+    directionT dir;
+    printf("if you input 0 which is north this program should print 1 (east) then print 3 (west)\n?");
+    scanf("%d",&dir);
+    printf("%d\n",RightFrom(dir));
+    printf("%d\n",LeftFrom(dir));
+}
+*********************************************************************************************************************************
+
+13.int *p1,p2; defines a int and an int pointer
+
+18. What is the internal representation of the constant NULL?
+is value 0 represent for address 0;
+NULL represents a pointer that does not point to any data.
+
+22. What is the difference between allocated size and effective size?
+The size of the array specified in the declaration is called the allocated size; 
+the nu1nber of elements actively in use is called the effective size.
+
+23. Multidimensional array storage
+The following declaration, for example, introduces a 3x3 matrix , each of whose elements is of type double:
+                                        double mat [3] [3];
+Conceptually, the storage for mat forms a two-dimensional structure in which the individual elements are laid out like this:
+                            mat[0][0]   mat[0][1]   mat[0][2]
+
+                            mat[1][0]   mat[1][1]   mat[1][2]
+
+                            mat[2][0]   mat[2][1]   mat[2][2]
+
+Internally, C represents the variable mat as an array of three elements,
+each of which is an array of three floating-point values. 
+The memory allocated to m consists of nine cells arranged in the following form:
+
+            mat[0]:mat[0][0]
+                   mat[0][1]
+                   mat[0][2]
+            mat[1]:mat[1][0]
+                   mat[1][1]
+                   mat[1][2]
+            mat[2]:mat[2][0]
+                   mat[2][1]
+                   mat[2][2]
+
+24. Write a variable declaration that you could use to record the state of a chessboard,
+    which consists of an 8x8 array of squares, each of which may contain any one of the following symbols:
+k white king        K
+q white queen       Q
+r white rook        R
+b white bishop      B
+n white knight      N
+p white pawn        P
+- empty square
+Explain how you could initialize this array so that it holds the standard starting position for a chess game:
+*********************************************************************************************************************************
+
+#include <stdio.h>
+
+char chess[8][8];
+
+void initialchessboard(char chess[8][8]);
+void showchessboard(char chess[8][8]);
+void main()
+{
+    initialchessboard(chess);
+    showchessboard(chess);
+}
+
+void showchessboard(char chess[8][8])
+{
+    for(int i=0;i<8;i++)
+    {
+        for(int j=0;j<8;j++)
+        {
+            printf("%c\t",chess[i][j]);
+            if (j==7) printf("\n\n\n");
+        }
+    }
+}
+
+void initialchessboard(char chess[8][8])
+{
+    for(int i=0;i<8;i++)
+    {
+        for(int j=0;j<8;j++)
+        {
+           /* if(i==2||i==3||i==4||i==5)
+                chess[i][j]="-";
+            elseif(i==1)
+                chess[i][j]="P";
+            elseif
+
+            there is a difference between if and switch so I choose switch
+两者本质的区别是 if-else语句更适合于对区间（范围）的判断，而switch语句更适合于对离散值的判断
+switch用来根据一个整型值进行多路分支，并且编译器可以对多路分支进行优化，所以在多路分支时用switch比if..else if .. else结构要效率高。
+            */
+            switch(i)
+            {
+                case 0: 
+                    {
+                        chess[i][0]='R';
+                        chess[i][7]='R';
+                        chess[i][1]='N';
+                        chess[i][6]='N';
+                        chess[i][2]='B';
+                        chess[i][5]='B';
+                        chess[i][3]='Q';
+                        chess[i][4]='K';
+                        break;
+                    }
+                case 1: chess[i][j]='P'; break;
+                case 6: chess[i][j]='P'; break;
+                case 2: case 3: case 4: case 5:
+                        chess[i][j]='-'; break;
+                case 7: 
+                    {
+                        chess[i][0]='r';
+                        chess[i][7]='r';
+                        chess[i][1]='n';
+                        chess[i][6]='n';
+                        chess[i][2]='b';
+                        chess[i][5]='b';
+                        chess[i][3]='q';
+                        chess[i][4]='k';
+                        break;
+                    }
+            }
+        }
+    }
+
+}
+*********************************************************************************************************************************
+
+26. 指针与数组的关系：
 	数组名 arr 与 &arr[0] 所代表的磁盘信息完全相同，即
-arr[i]等效于*ip+i,ip=&arr[0] OR:	arr[i]==ip[i]
+arr[i] <=> *ip+i,ip=&arr[0] OR:	arr[i]==ip[i]
+arr[2] <=> arr+2 
+若p1=arr[0],p2=arr[2];则p2-p1==2;
 
-记录（结构体）
+29. What steps are necessary to declare a record variable?
+typedef struct {
+string name;
+string title;
+string ssnum;
+double salary;
+int withholding;
+} employeeRecordT;
 
-动态分配
-类型void*专用于malloc函数所返回的通用指针
+30. If the variable p is declared as a pointer to a record that contains a field called cost, 
+    what is wrong with the expression       *p.cost 
+    as a means of following the pointer from p to its value and then selecting the cost field? 
+    What expression would you write in C to accomplish this dereference-and-select operation?
+选择运算符中的域运算符　.　和指针选域运算符 -> 优先于 * &等单目运算符。应该用p->cost来完成取消引用并选择域值的操作。
+
+31. What is the heap?
+三种内存分配方法　静态分配　全局变量　自动分配　局部变量（空间从栈中取得）　动态分配　动态数组显式申请的变量（空间从堆中取得）
+堆 用于动态分配的内存中的未分配空间
+
+32. What is the purpose of the type void•?
+void *vp; vp can point to a data type called void.so vp can obtain pointer type like int* char* double* struct* and so on.
+but you can not apply * operator to vp because void type doesn't make any sense.
+vp is different from NULL because NULL can not point to any data,and vp can point to any data;
 
 动态数组：随程序需要重新指定大小，适用于无法预知大小的数组
-
-动态记录
-
 
 静态三维数组的声明
 int array[n1][n2][n3];
 
+
+**********************************************************************************************************************************
 动态三维数组的构建与释放
 int i,j,k,n1,n3,n2;
 int ***array;
@@ -57,5 +283,4 @@ free(array[i]);
 }
 
 free(array); //over
-
-
+**********************************************************************************************************************************
