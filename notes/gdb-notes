@@ -1,0 +1,41 @@
+this file record the command used frequently in gdb
+
+gcc -g test.c -o a
+
+gdb a
+
+help
+
+apropos exit
+
+quit
+
+run 
+
+break program1.c:6
+
+break my-function
+
+continue
+
+step
+
+next
+
+until
+
+print my-var
+
+watch my-var
+
+finish
+
+info breakpoints
+
+delete
+
+break file1.c:6 if i>5
+
+print e1->key
+
+print (*e1).key
