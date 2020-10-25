@@ -214,9 +214,27 @@ switch用来根据一个整型值进行多路分支，并且编译器可以对�
 
 26. 指针与数组的关系：
 	数组名 arr 与 &arr[0] 所代表的磁盘信息完全相同，即
-arr[i] <=> *ip+i,ip=&arr[0] OR:	arr[i]==ip[i]
-arr[2] <=> arr+2 
+    数组名arr是一个指针，当在数组名后面加上[]运算符时变成arr[]时，Ｃ语言便将其识别为数组，进行数组操作。
 若p1=arr[0],p2=arr[2];则p2-p1==2;
+
+#include<stdio.h>
+
+int main(void)
+{
+    int array[10]={0,1,2,3,4,5,6,7,8,9};
+    int * arrayP;
+    arrayP = &array[0];
+
+    printf("print \"array\":\n\t%d\n",array);
+    printf("print \"arrayP\":\n\t%d\n",arrayP);
+
+    printf("print array[0]:\n\t%d\n",array[0]);
+
+    printf("print arrayP[0]:\n\t%d\n",arrayP[0]);
+    printf("print *(arrayP+0):\n\t%d\n",*(arrayP+0));
+}
+
+*********************************************************************************************************************************
 
 29. What steps are necessary to declare a record variable?
 typedef struct {
