@@ -1,5 +1,5 @@
 #! /bin/csh -f
-set INCLUDE = /home/bigdog/Downloads/temp/cslib
+set INCLUDE = /home/bi/w/l
 set CSLIB = $INCLUDE/cslib.a
 set LIBRARIES = ($CSLIB -lm)
 foreach x ($*)
